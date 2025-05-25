@@ -1,5 +1,11 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
+#include "databaseManager.cpp"
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QVariant>
+#include <QDebug>
 
 connect(ui->addButton, &QPushButton::clicked, this, &MainWindow::onAddButtonClicked);
 connect(ui->saveButton, &QPushButton::clicked, this, &MainWindow::onSaveButtonClicked);
@@ -10,6 +16,13 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    if (dbManager.connect()) { // Connect to the database
+        populateTable(); // Populate the table with existing items
+    }
+    else {
+		qDebug() << "Failed to connect to the database.";
+    }
 }
 
 MainWindow::~MainWindow()
@@ -17,7 +30,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-//Inventory Manager logic map
+//Inventory Manager button map
 
 void MainWindow::onAddButtonClicked() {
     QString itemType = ui->itemTypeEdit->text();
@@ -31,9 +44,9 @@ void MainWindow::onAddButtonClicked() {
         return;
     }
 	InventoryItem item(itemType, category, description, room, quantity);
-	InventoryManager.addItem(item);
-    populateTable();
-    clearInputFields();
+    if (dbManager.addItem(item)) {
+        populateTable(); //refresh table
+    }
 
 }
 
@@ -42,7 +55,27 @@ void MainWindow::onSaveButtonClicked() {
 	QMessageBox::information(this, "Saved", "Inventory saved successfully.");
 }
 
-void MainWindow::onLoadButtonClicjed() {
+void MainWindow::onLoadButtonClicked() {
     InventoryManager.loadFromFile("inventory.txt");
     populateTable();
+}
+
+//SQL connection
+void MainWindow::connectToDatabase() : {
+
+    QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
+
+    QString dsn = "DRIVER={ODBC Driver 17 for SQL Server};"
+        "SERVER=localhost;"
+        "DATABASE=HomeInventory;"
+        "Trusted_Connection=yes;";
+
+    db.setDatabaseName(dsn);
+
+    if (!db.open()) {
+        qDebug() << "Database connection failed: " << db.lastError().text();
+    }
+    else {
+        qDebug() << "Database connected successfully.";
+    }
 }

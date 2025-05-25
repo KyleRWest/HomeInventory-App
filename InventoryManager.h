@@ -8,6 +8,7 @@
 #define INVENTORYMANAGER_H
 
 #include <QList>
+/*
 class InventoryManager {
 public:
 	void addItem(const InventoryItem& itemType);
@@ -23,3 +24,4 @@ private:
 };
 
 #endif //INVENTORYMANAGER_H
+*/

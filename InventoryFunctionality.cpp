@@ -1,10 +1,7 @@
 #include "InventoryManager.h"
 #include <QFile>
 #include <QTextStream>
-
-void InventoryManager::addItem(const InventoryItem& itemType) {
-	items.append(itemType);
-}
+/*
 void InventoryManager::editItem(int index, const InventoryItem& newType) {
 	if (index >= 0 && index < items.size()) {
 		items[index] = newType;
@@ -19,7 +16,7 @@ void InventoryManager::deleteItem(int index) {
 
 QList<InventoryItem> InventoryManager::getItems() const {
 	return items;
-}
+}*/
 
 QList<InventoryItem> InventoryManager::searchItems(const QString& keyword) const {
 	QList<InventoryItem> results;
@@ -32,7 +29,7 @@ QList<InventoryItem> InventoryManager::searchItems(const QString& keyword) const
 	return results;
 }
 
-void InventoryManager::loadFromFile(const QString& filepath) {
+/*void InventoryManager::loadFromFile(const QString& filepath) {
 	QFile file(filepath);
 	if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return;
 
@@ -55,7 +52,7 @@ void InventoryManager::saveToFile(const QString& filepath) const {
 	for (const InventoryItem& item : items) {
 		out << item.itemType << "|" << item.category << "|" << item.description << "|" << item.room << "|" << item.quantity << "\n";
 	} file.close();
-}
+}*/
 
 /*#include "InventoryManager.h"
 #include <fstream>

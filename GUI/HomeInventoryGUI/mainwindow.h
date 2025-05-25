@@ -5,6 +5,9 @@
 
 #include "InventoryManager.h"
 #include "InventoryItem.h"
+#include "databaseManager.h"
+
+DatabaseManager dbManager;
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -17,13 +20,21 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+    void onAddButtonClicked();
+
+    dbManager.connect();
+    populateTable();
 
 private:
     Ui::MainWindow *ui;
 	InventoryManager inventoryManager;
-	void populateTable();
+    void populateTable() {
+		QList<InventoryItem> items = dbManager.getAllItems();
+    }
 	void clearInputFields();
 };
 #endif // MAINWINDOW_H
+

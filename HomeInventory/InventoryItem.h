@@ -5,13 +5,16 @@
 
 class InventoryItem {
 public:
+	int id; // Unique identifier for the inventory item
 	QString itemType;
 	QString category;
 	QString description;
 	QString room;
 	int quantity;
 
-	InventoryItem(const QString& itemType = "", const QString& category = "", int quantity = 0, const QString& description = "", const QString& room = "");
+	InventoryItem() = default;
+	InventoryItem(QString name, QString category, QString desc, QString room, int quantity)
+		: name(name), category(category), description(desc), room(room), quantity(quantity) {}
 
 };
 
