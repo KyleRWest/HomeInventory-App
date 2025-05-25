@@ -1,0 +1,3 @@
+Coffee mugs,Glasses and Mugs,6
+Dinner plates,Dishes,4
+Forks,Cutlery,4
